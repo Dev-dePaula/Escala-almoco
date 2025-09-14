@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Escala de Refeições</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+</head>
+<body>
+
+    <div id="escala-container">
+        <h2>PREPARO DAS REFEIÇÕES DIÁRIAS AGOSTO/2025</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>SEGUNDA</th>
+                    <th>TERÇA</th>
+                    <th>QUARTA</th>
+                    <th>QUINTA</th>
+                    <th>SEXTA</th>
+                    <th>SÁBADO</th>
+                    <th>DOMINGO</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="label">ALMOÇO</td>
+                    <td><input type="text" value="NICOLAS"></td>
+                    <td><input type="text" value="DONIZETE"></td>
+                    <td><input type="text" value="THALES"></td>
+                    <td><input type="text" value="SERGIO"></td>
+                    <td><input type="text" value="NICOLAS"></td>
+                    <td><input type="text" value="WESLEY"></td>
+                    <td><input type="text" value="EDNALDO"></td>
+                </tr>
+                <tr>
+                    <td class="label">APOIO</td>
+                    <td><input type="text" value="ADRIANO"></td>
+                    <td><input type="text" value="ESCOBAR"></td>
+                    <td><input type="text" value="WESLEY"></td>
+                    <td><input type="text" value="MITIEL"></td>
+                    <td><input type="text" value="ADRIANO"></td>
+                    <td><input type="text" value="ESCOBAR"></td>
+                    <td><input type="text" value="NICOLAS"></td>
+                </tr>
+                <tr>
+                    <td class="note" colspan="8">OU QUEM ESTIVER NA CASA</td>
+                </tr>
+                 <tr class="spacer">
+                    <td colspan="8"></td>
+                </tr>
+                <tr>
+                    <td class="label">JANTAR</td>
+                    <td><input type="text" value="WESLEY"></td>
+                    <td><input type="text" value="SERGIO"></td>
+                    <td><input type="text" value="NICOLAS"></td>
+                    <td><input type="text" value="DONIZETE"></td>
+                    <td><input type="text" value="HALLEY"></td>
+                    <td><input type="text" value="EDNALDO"></td>
+                    <td><input type="text" value="THALES"></td>
+                </tr>
+                <tr>
+                    <td class="label">APOIO</td>
+                    <td><input type="text" value="ESCOBAR"></td>
+                    <td><input type="text" value="ADRIANO"></td>
+                    <td><input type="text" value="HALLEY"></td>
+                    <td><input type="text" value="MITIEL"></td>
+                    <td><input type="text" value="WESLEY"></td>
+                    <td><input type="text" value="ESCOBAR"></td>
+                    <td><input type="text" value="ADRIANO"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <button id="download-btn">Baixar Escala como PDF</button>
+
+    <script src="script.js"></script>
+</body>
+</html>
