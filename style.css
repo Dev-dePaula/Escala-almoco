@@ -10,6 +10,8 @@ body {
     align-items: center;
     padding: 20px;
     color: #333;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 #escala-container {
@@ -17,8 +19,9 @@ body {
     padding: 30px;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 95%;
+    width: 100%;
     max-width: 1200px;
+    box-sizing: border-box; /* Garante que padding não aumente a largura total */
 }
 
 h2 {
@@ -34,16 +37,18 @@ table {
     table-layout: fixed;
 }
 
-th, td {
+thead th {
+    background-color: #e9ecef;
+    font-weight: 700;
+    padding: 12px;
+    text-align: center;
+}
+
+td {
     border: 1px solid #cccccc;
     padding: 12px;
     text-align: center;
     vertical-align: middle;
-}
-
-thead th {
-    background-color: #e9ecef;
-    font-weight: 700;
 }
 
 td.label {
@@ -56,7 +61,7 @@ td.label {
 td.note {
     border: none;
     text-align: left;
-    padding-left: 100px; /* Alinha com a segunda coluna */
+    padding-left: 100px;
     font-size: 0.8em;
     color: #666;
 }
@@ -67,7 +72,7 @@ tr.spacer td {
 }
 
 input[type="text"] {
-    width: 90%;
+    width: 95%;
     padding: 8px;
     border: 1px solid #dcdcdc;
     border-radius: 4px;
@@ -75,6 +80,7 @@ input[type="text"] {
     font-size: 1em;
     font-family: 'Roboto', sans-serif;
     transition: border-color 0.2s;
+    box-sizing: border-box;
 }
 
 input[type="text"]:focus {
@@ -97,4 +103,78 @@ input[type="text"]:focus {
 
 #download-btn:hover {
     background-color: #218838;
+}
+
+/* =============================================== */
+/* ESTILOS RESPONSIVOS PARA TABLET E CELULAR       */
+/* =============================================== */
+@media screen and (max-width: 768px) {
+    #escala-container {
+        padding: 15px;
+    }
+
+    h2 {
+        font-size: 1.2em;
+    }
+
+    /* Esconde o cabeçalho original da tabela */
+    table thead {
+        display: none;
+    }
+
+    /* Transforma a tabela em blocos */
+    table, thead, tbody, th, td, tr {
+        display: block;
+    }
+
+    tr {
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        margin-bottom: 15px;
+    }
+    
+    /* Remove bordas das células para um look mais limpo */
+    td {
+        border: none;
+        border-bottom: 1px solid #eee;
+        position: relative;
+        padding-left: 45%; /* Espaço para o "label" do dia */
+        text-align: right;
+        min-height: 38px; /* Altura mínima para alinhar com o input */
+    }
+
+    /* Adiciona o dia da semana antes de cada campo */
+    td[data-label]::before {
+        content: attr(data-label);
+        position: absolute;
+        left: 10px;
+        width: 40%;
+        padding-right: 10px;
+        white-space: nowrap;
+        text-align: left;
+        font-weight: bold;
+    }
+
+    td:last-child {
+        border-bottom: 0;
+    }
+
+    /* Estilo para os labels principais (Almoço, Jantar) */
+    td.label {
+        background-color: #343a40;
+        color: white;
+        text-align: center;
+        padding-left: 12px;
+        border-radius: 5px 5px 0 0;
+    }
+
+    td.note {
+        padding-left: 12px;
+        text-align: center;
+        font-size: 0.9em;
+    }
+
+    input[type="text"] {
+        width: 100%;
+    }
 }
