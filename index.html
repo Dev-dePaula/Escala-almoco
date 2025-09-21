@@ -3,80 +3,298 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Escala de Refeições Responsiva</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <title>Gerador de Escala de Refeições</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .container {
+            width: 90%;
+            max-width: 900px;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .name-manager {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        .name-group {
+            flex: 1;
+            min-width: 200px;
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+        h3 {
+            margin-top: 0;
+            border-bottom: 2px solid #35A5D5;
+            padding-bottom: 5px;
+        }
+        textarea {
+            width: 100%;
+            height: 150px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        .button-container {
+            text-align: center;
+            margin: 20px 0;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        button {
+            padding: 12px 25px;
+            font-size: 18px;
+            font-weight: bold;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        #generateBtn {
+            background-color: #28a745;
+        }
+        #generateBtn:hover {
+            background-color: #218838;
+        }
+        #downloadBtn {
+            background-color: #007bff;
+        }
+        #downloadBtn:hover {
+            background-color: #0069d9;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: center;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 8px;
+            border: 1px solid #ccc;
+        }
+        .main-header {
+            background-color: #35A5D5;
+            color: white;
+            font-size: 18px;
+        }
+        .meal-header {
+            background-color: #F8E568;
+            font-weight: bold;
+        }
+        .day-col {
+            background-color: #93C47D;
+            font-weight: bold;
+        }
+        .main-duty-cell {
+            background-color: #93C47D;
+        }
+        .support-duty-cell {
+            background-color: #F8E568;
+        }
+
+        /* ESTILOS PARA IMPRESSÃO */
+        @media print {
+            body {
+                background-color: white;
+                margin: 0;
+            }
+            .no-print {
+                display: none;
+            }
+            .container {
+                box-shadow: none;
+                width: 100%;
+                max-width: 100%;
+                padding: 0;
+            }
+            table {
+                margin-top: 0;
+            }
+            /* Força a impressão das cores de fundo no Chrome/Safari/Edge */
+            th, td {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+        }
+    </style>
 </head>
 <body>
 
-    <div id="escala-container">
-        <h2>PREPARO DAS REFEIÇÕES DIÁRIAS AGOSTO/2025</h2>
-        <table>
+    <div class="container">
+        <div class="no-print">
+            <h2>Gerador de Escala de Refeições</h2>
+
+            <div class="name-manager">
+                <div class="name-group">
+                    <h3>Cozinheiros (Almoço)</h3>
+                    <textarea id="lunchCooks" placeholder="Coloque um nome por linha...">WESLEY
+THALES
+DONIZETE</textarea>
+                </div>
+                <div class="name-group">
+                    <h3>Cozinheiros (Jantar)</h3>
+                    <textarea id="dinnerCooks" placeholder="Coloque um nome por linha...">LUCIANO
+BRUNO
+SERGIO</textarea>
+                </div>
+                <div class="name-group">
+                    <h3>Equipe de Apoio</h3>
+                    <textarea id="supportCrew" placeholder="Coloque um nome por linha...">TIAGO
+MÁRIO
+HIAGO
+MITIEL
+JAIME</textarea>
+                </div>
+            </div>
+
+            <div class="button-container">
+                <button id="generateBtn">Gerar Nova Escala Aleatória</button>
+                <button id="downloadBtn">Baixar PDF / Imprimir</button>
+            </div>
+        </div>
+
+        <table id="scheduleTable">
             <thead>
                 <tr>
-                    <th></th>
-                    <th>SEGUNDA</th>
-                    <th>TERÇA</th>
-                    <th>QUARTA</th>
-                    <th>QUINTA</th>
-                    <th>SEXTA</th>
-                    <th>SÁBADO</th>
-                    <th>DOMINGO</th>
+                    <th colspan="5" class="main-header">
+                        PREPARO DAS REFEIÇÕES DIÁRIAS
+                    </th>
+                </tr>
+                <tr class="meal-header">
+                    <td></td>
+                    <td>ALMOÇO</td>
+                    <td>APOIO</td>
+                    <td>JANTAR</td>
+                    <td>APOIO</td>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td class="label">ALMOÇO</td>
-                    <td data-label="SEGUNDA"><input type="text" value="NICOLAS"></td>
-                    <td data-label="TERÇA"><input type="text" value="DONIZETE"></td>
-                    <td data-label="QUARTA"><input type="text" value="THALES"></td>
-                    <td data-label="QUINTA"><input type="text" value="SERGIO"></td>
-                    <td data-label="SEXTA"><input type="text" value="NICOLAS"></td>
-                    <td data-label="SÁBADO"><input type="text" value="WESLEY"></td>
-                    <td data-label="DOMINGO"><input type="text" value="EDNALDO"></td>
+                    <td class="day-col">SEGUNDA</td>
+                    <td id="almoco-segunda" class="main-duty-cell">-</td>
+                    <td id="apoio-almoco-segunda" class="support-duty-cell">-</td>
+                    <td id="jantar-segunda" class="main-duty-cell">-</td>
+                    <td id="apoio-jantar-segunda" class="support-duty-cell">-</td>
                 </tr>
                 <tr>
-                    <td class="label">APOIO</td>
-                    <td data-label="SEGUNDA"><input type="text" value="ADRIANO"></td>
-                    <td data-label="TERÇA"><input type="text" value="ESCOBAR"></td>
-                    <td data-label="QUARTA"><input type="text" value="WESLEY"></td>
-                    <td data-label="QUINTA"><input type="text" value="MITIEL"></td>
-                    <td data-label="SEXTA"><input type="text" value="ADRIANO"></td>
-                    <td data-label="SÁBADO"><input type="text" value="ESCOBAR"></td>
-                    <td data-label="DOMINGO"><input type="text" value="NICOLAS"></td>
+                    <td class="day-col">TERÇA</td>
+                    <td id="almoco-terca" class="main-duty-cell">-</td>
+                    <td id="apoio-almoco-terca" class="support-duty-cell">-</td>
+                    <td id="jantar-terca" class="main-duty-cell">-</td>
+                    <td id="apoio-jantar-terca" class="support-duty-cell">-</td>
                 </tr>
                 <tr>
-                    <td class="note" colspan="8">OU QUEM ESTIVER NA CASA</td>
-                </tr>
-                 <tr class="spacer">
-                    <td colspan="8"></td>
-                </tr>
-                <tr>
-                    <td class="label">JANTAR</td>
-                    <td data-label="SEGUNDA"><input type="text" value="WESLEY"></td>
-                    <td data-label="TERÇA"><input type="text" value="SERGIO"></td>
-                    <td data-label="QUARTA"><input type="text" value="NICOLAS"></td>
-                    <td data-label="QUINTA"><input type="text" value="DONIZETE"></td>
-                    <td data-label="SEXTA"><input type="text" value="HALLEY"></td>
-                    <td data-label="SÁBADO"><input type="text" value="EDNALDO"></td>
-                    <td data-label="DOMINGO"><input type="text" value="THALES"></td>
+                    <td class="day-col">QUARTA</td>
+                    <td id="almoco-quarta" class="main-duty-cell">-</td>
+                    <td id="apoio-almoco-quarta" class="support-duty-cell">-</td>
+                    <td id="jantar-quarta" class="main-duty-cell">-</td>
+                    <td id="apoio-jantar-quarta" class="support-duty-cell">-</td>
                 </tr>
                 <tr>
-                    <td class="label">APOIO</td>
-                    <td data-label="SEGUNDA"><input type="text" value="ESCOBAR"></td>
-                    <td data-label="TERÇA"><input type="text" value="ADRIANO"></td>
-                    <td data-label="QUARTA"><input type="text" value="HALLEY"></td>
-                    <td data-label="QUINTA"><input type="text" value="MITIEL"></td>
-                    <td data-label="SEXTA"><input type="text" value="WESLEY"></td>
-                    <td data-label="SÁBADO"><input type="text" value="ESCOBAR"></td>
-                    <td data-label="DOMINGO"><input type="text" value="ADRIANO"></td>
+                    <td class="day-col">QUINTA</td>
+                    <td id="almoco-quinta" class="main-duty-cell">-</td>
+                    <td id="apoio-almoco-quinta" class="support-duty-cell">-</td>
+                    <td id="jantar-quinta" class="main-duty-cell">-</td>
+                    <td id="apoio-jantar-quinta" class="support-duty-cell">-</td>
+                </tr>
+                <tr>
+                    <td class="day-col">SEXTA</td>
+                    <td id="almoco-sexta" class="main-duty-cell">-</td>
+                    <td id="apoio-almoco-sexta" class="support-duty-cell">-</td>
+                    <td id="jantar-sexta" class="main-duty-cell">-</td>
+                    <td id="apoio-jantar-sexta" class="support-duty-cell">-</td>
+                </tr>
+                <tr>
+                    <td class="day-col">SÁBADO</td>
+                    <td id="almoco-sabado" class="main-duty-cell">-</td>
+                    <td id="apoio-almoco-sabado" class="support-duty-cell">-</td>
+                    <td id="jantar-sabado" class="main-duty-cell">-</td>
+                    <td id="apoio-jantar-sabado" class="support-duty-cell">-</td>
+                </tr>
+                <tr>
+                    <td class="day-col">DOMINGO</td>
+                    <td id="almoco-domingo" class="main-duty-cell">-</td>
+                    <td id="apoio-almoco-domingo" class="support-duty-cell">-</td>
+                    <td id="jantar-domingo" class="main-duty-cell">-</td>
+                    <td id="apoio-jantar-domingo" class="support-duty-cell">-</td>
                 </tr>
             </tbody>
         </table>
     </div>
 
-    <button id="download-btn">Baixar Escala como PDF</button>
+    <script>
+        document.getElementById('generateBtn').addEventListener('click', generateSchedule);
+        document.getElementById('downloadBtn').addEventListener('click', () => {
+            window.print();
+        });
 
-    <script src="script.js"></script>
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        function getNamesFromTextarea(id) {
+            const textarea = document.getElementById(id);
+            return textarea.value.split('\n').map(name => name.trim()).filter(name => name);
+        }
+
+        function generateSchedule() {
+            const lunchCooks = getNamesFromTextarea('lunchCooks');
+            const dinnerCooks = getNamesFromTextarea('dinnerCooks');
+            const supportCrew = getNamesFromTextarea('supportCrew');
+
+            if (lunchCooks.length === 0 || dinnerCooks.length === 0 || supportCrew.length === 0) {
+                alert("Por favor, preencha todas as listas de nomes antes de gerar a escala.");
+                return;
+            }
+
+            const shuffledLunch = shuffleArray([...lunchCooks]);
+            const shuffledDinner = shuffleArray([...dinnerCooks]);
+            const shuffledSupport = shuffleArray([...supportCrew]);
+
+            const days = ['segunda', 'terca', 'quarta', 'quinta', 'sexta', 'sabado', 'domingo'];
+            
+            // Assign main duties
+            days.forEach((day, index) => {
+                document.getElementById(`almoco-${day}`).textContent = shuffledLunch[index % shuffledLunch.length];
+                document.getElementById(`jantar-${day}`).textContent = shuffledDinner[index % shuffledDinner.length];
+            });
+
+            // Assign support duties (14 slots total)
+            let supportIndex = 0;
+            days.forEach(day => {
+                document.getElementById(`apoio-almoco-${day}`).textContent = shuffledSupport[supportIndex % shuffledSupport.length];
+                supportIndex++;
+            });
+            days.forEach(day => {
+                document.getElementById(`apoio-jantar-${day}`).textContent = shuffledSupport[supportIndex % shuffledSupport.length];
+                supportIndex++;
+            });
+        }
+        
+        // Generate a schedule on page load
+        window.onload = generateSchedule;
+
+    </script>
 </body>
 </html>
